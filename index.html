@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dating App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #000;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fe3c72;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #fe3c72;
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://sjc.microlink.io/2VijNKxWVppzzi5Vajyg8AYOgHOb5J_P13DFsKPhDyvf67Glt_hmfJ931IxTfd4_aO7ZSwOn4Tb1-7sJMTpT_g.jpeg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 1rem;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: #fff;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .action-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+        }
+
+        .like {
+            background-color: #fe3c72;
+            color: white;
+        }
+
+        .dislike {
+            background-color: #fff;
+            color: #fe3c72;
+        }
+
+        .action-button:hover {
+            transform: scale(1.1);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .social-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: #fe3c72;
+        }
+
+        .cta-button {
+            background: #fe3c72;
+            color: #fff;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        .cta-button:hover {
+            background: #e62e63;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 2rem;
+            border-radius: 1rem;
+            z-index: 1001;
+            color: #333;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal h2 {
+            margin-bottom: 1rem;
+            color: #fe3c72;
+        }
+
+        .modal-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .modal-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #fe3c72;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal-link:hover {
+            background: #e62e63;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .online-status {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            opacity: 0.9;
+        }
+
+        .online-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+            }
+            
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+            }
+            
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .grid-container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="logo"> PVLIBERADO</div>
+        <div class="nav-links">
+            <a href="#">Início</a>
+            <a href="#">Perfis</a>
+            <a href="#">Sobre</a>
+            <a href="#">Contato</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Novinhas Esperando para um Papo!</h1>
+        <button class="cta-button">Começar Agora</button>
+    </section>
+
+    <div class="grid-container" id="profiles">
+        <!-- Perfis serão inseridos aqui via JavaScript -->
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="modal" id="socialModal">
+        <button class="close-modal" onclick="closeModal()">×</button>
+        <h2>Redes Sociais</h2>
+        <div class="modal-links" id="modalLinks">
+            <!-- Links sociais serão inseridos aqui -->
+        </div>
+    </div>
+
+    <script>
+        const profiles = [
+            {
+                name: 'Ana', 
+                age: 21, 
+                bio: 'Algum novinho pra trocar fotos no insta?', 
+                image: 'img/menina1.jpg',
+                social: {
+                    instagram: 'https://instagram.com/ana',
+                    facebook: 'https://facebook.com/ana',
+                    twitter: 'https://twitter.com/ana'
+                },
+                online: true
+            },
+            {
+                name: 'Ster Silva', 
+                age: 23, 
+                bio: 'Se flodar meu direct, não envio fotos!', 
+                image: 'img/menina2.jpg',
+                social: {
+                    instagram: 'https://instagram.com/carlos',
+                    facebook: 'https://facebook.com/carlos',
+                    twitter: 'https://twitter.com/carlos'
+                },
+                online: false
+            },
+            {
+                name: 'Mariana', 
+                age: 19, 
+                bio: 'Não envio foto pra gente muito velha :)', 
+                image: 'img/menina3.jpg',
+                social: {
+                    instagram: 'https://instagram.com/mariana',
+                    facebook: 'https://facebook.com/mariana',
+                    twitter: 'https://twitter.com/mariana'
+                },
+                online: true
+            },
+            {
+                name: 'Pedro', 
+                age: 30, 
+                bio: 'Não vendo, envio de graça XD', 
+                image: 'img/menina4.jpg',
+                social: {
+                    instagram: 'https://instagram.com/pedro',
+                    facebook: 'https://facebook.com/pedro',
+                    twitter: 'https://twitter.com/pedro'
+                },
+                online: false
+            }
+        ];
+
+        const profilesContainer = document.getElementById('profiles');
+        const modal = document.getElementById('socialModal');
+        const overlay = document.getElementById('overlay');
+        const modalLinks = document.getElementById('modalLinks');
+
+        function showSocialLinks(profile) {
+            modalLinks.innerHTML = `
+                <a href="${profile.social.instagram}" target="_blank" class="modal-link">Instagram</a>
+                <a href="${profile.social.facebook}" target="_blank" class="modal-link">Facebook</a>
+                <a href="${profile.social.twitter}" target="_blank" class="modal-link">Twitter</a>
+            `;
+            modal.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+
+        overlay.addEventListener('click', closeModal);
+
+        profiles.forEach((profile, index) => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.style.animationDelay = `${index * 0.1}s`;
+            
+            card.innerHTML = `
+                <img src="${profile.image}" alt="${profile.name}">
+                ${profile.online ? '<div class="online-status"><span class="online-indicator"></span>Online</div>' : ''}
+                <div class="card-content">
+                    <h2>${profile.name}, ${profile.age}</h2>
+                    <p>${profile.bio}</p>
+                    <div class="card-actions">
+                        <button class="action-button dislike" onclick="handleDislike(this)">✕</button>
+                        <button class="action-button like" onclick="handleLike(this, ${index})">♥</button>
+                    </div>
+                </div>
+            `;
+            
+            profilesContainer.appendChild(card);
+        });
+
+        function handleLike(button, index) {
+            showSocialLinks(profiles[index]);
+        }
+
+        function handleDislike(button) {
+            const card = button.closest('.card');
+            card.style.transform = 'translateX(-100%) rotate(-20deg)';
+            card.style.opacity = '0';
+            setTimeout(() => card.remove(), 300);
+        }
+    </script>
+</body>
+</html>
+
