@@ -147,23 +147,6 @@
             transform: scale(1.1);
         }
 
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 0.5rem;
-        }
-
-        .social-link {
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s ease;
-        }
-
-        .social-link:hover {
-            color: #fe3c72;
-        }
-
         .cta-button {
             background: #fe3c72;
             color: #fff;
@@ -179,68 +162,6 @@
 
         .cta-button:hover {
             background: #e62e63;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #fff;
-            padding: 2rem;
-            border-radius: 1rem;
-            z-index: 1001;
-            color: #333;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .modal h2 {
-            margin-bottom: 1rem;
-            color: #fe3c72;
-        }
-
-        .modal-links {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .modal-link {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: #fe3c72;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 0.5rem;
-            transition: background-color 0.3s ease;
-        }
-
-        .modal-link:hover {
-            background: #e62e63;
-        }
-
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #333;
         }
 
         .online-status {
@@ -322,21 +243,12 @@
     </nav>
 
     <section class="hero">
-        <h1>Novinhas Esperando para um Papo</h1>
-        <button class="cta-button">Role para Baixo!</button>
+        <h1>Novinhas Esperando para um Papo!</h1>
+        <button class="cta-button">Começar Agora</button>
     </section>
 
     <div class="grid-container" id="profiles">
         <!-- Perfis serão inseridos aqui via JavaScript -->
-    </div>
-
-    <div class="overlay" id="overlay"></div>
-    <div class="modal" id="socialModal">
-        <button class="close-modal" onclick="closeModal()">×</button>
-        <h2>Redes Sociais</h2>
-        <div class="modal-links" id="modalLinks">
-            <!-- Links sociais serão inseridos aqui -->
-        </div>
     </div>
 
     <script>
@@ -346,11 +258,6 @@
                 age: 21, 
                 bio: 'Algum novinho pra trocar fotos no insta?', 
                 image: 'img/menina1.jpg',
-                social: {
-                    instagram: 'https://stats-digit-reliability-massachusetts.trycloudflare.com ',
-                    facebook: 'https://van-consistently-committed-log.trycloudflare.com ',
-                    twitter: 'https://twitter.com/ana'
-                },
                 online: true
             },
             {
@@ -358,11 +265,6 @@
                 age: 23, 
                 bio: 'Se flodar meu direct, não envio fotos!', 
                 image: 'img/menina2.jpg',
-                social: {
-                    instagram: 'https://stats-digit-reliability-massachusetts.trycloudflare.com ',
-                    facebook: 'https://van-consistently-committed-log.trycloudflare.com ',
-                    twitter: 'https://twitter.com/carlos'
-                },
                 online: false
             },
             {
@@ -370,11 +272,6 @@
                 age: 19, 
                 bio: 'Não envio foto pra gente muito velha :)', 
                 image: 'img/menina3.jpg',
-                social: {
-                    instagram: 'https://stats-digit-reliability-massachusetts.trycloudflare.com ',
-                    facebook: 'https://van-consistently-committed-log.trycloudflare.com ',
-                    twitter: 'https://twitter.com/mariana'
-                },
                 online: true
             },
             {
@@ -382,36 +279,15 @@
                 age: 30, 
                 bio: 'Não vendo, envio de graça XD', 
                 image: 'img/menina4.jpg',
-                social: {
-                    instagram: 'https://stats-digit-reliability-massachusetts.trycloudflare.com ',
-                    facebook: 'https://van-consistently-committed-log.trycloudflare.com ',
-                    twitter: 'https://twitter.com/pedro'
-                },
                 online: false
             }
         ];
 
         const profilesContainer = document.getElementById('profiles');
-        const modal = document.getElementById('socialModal');
-        const overlay = document.getElementById('overlay');
-        const modalLinks = document.getElementById('modalLinks');
 
-        function showSocialLinks(profile) {
-            modalLinks.innerHTML = `
-                <a href="${profile.social.instagram}" target="_blank" class="modal-link">Instagram</a>
-                <a href="${profile.social.facebook}" target="_blank" class="modal-link">Facebook</a>
-                <a href="${profile.social.twitter}" target="_blank" class="modal-link">Twitter</a>
-            `;
-            modal.style.display = 'block';
-            overlay.style.display = 'block';
+        function openInstagram() {
+            window.open('https://www.instagram.com', '_blank');
         }
-
-        function closeModal() {
-            modal.style.display = 'none';
-            overlay.style.display = 'none';
-        }
-
-        overlay.addEventListener('click', closeModal);
 
         profiles.forEach((profile, index) => {
             const card = document.createElement('div');
@@ -426,17 +302,13 @@
                     <p>${profile.bio}</p>
                     <div class="card-actions">
                         <button class="action-button dislike" onclick="handleDislike(this)">✕</button>
-                        <button class="action-button like" onclick="handleLike(this, ${index})">♥</button>
+                        <button class="action-button like" onclick="openInstagram()">♥</button>
                     </div>
                 </div>
             `;
             
             profilesContainer.appendChild(card);
         });
-
-        function handleLike(button, index) {
-            showSocialLinks(profiles[index]);
-        }
 
         function handleDislike(button) {
             const card = button.closest('.card');
@@ -447,4 +319,3 @@
     </script>
 </body>
 </html>
-
